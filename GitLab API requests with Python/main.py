@@ -1,11 +1,8 @@
 import requests
-import json
 
 usr_name = input("Your name: ")
 usr_token = input("Your token: ")
-usr_url = input("Enter your URL: ")
-
-# GitLab URL - https://gitlab.com/api/v4//users?username=:username
+usr_url = "https://gitlab.com/api/v4//users?username=:username"
 
 usr_headers = {'User-Agent': f'{usr_name} ({usr_token})'}
 
