@@ -11,7 +11,6 @@ from kafka import KafkaProducer
 from elasticsearch import Elasticsearch
 from pyspark.streaming.kafka import KafkaUtils
 
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s",
                     filename="logfile.log", filemode="w")
@@ -35,7 +34,7 @@ mysql_database = input("Enter the MySQL database name: ")
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
 # Set up the Kafka stream
-kafka_stream = KafkaUtils.createStream(
+kafka_stream = KafkaUtils.createDirectStream(
     ssc, "localhost:2181", "spark-streaming-consumer", {"twitter-topic": int(1)})  # fix: cast number of partitions to int
 
 # Process the stream
@@ -49,9 +48,8 @@ producer.send(topic, message.encode('utf-8'))
 # Set up the Elasticsearch client
 es = Elasticsearch(['localhost:9200'])
 
+
 # Write the tweets to Elasticsearch
-
-
 def write_to_elasticsearch(rdd):
     try:
         rdd.foreachPartition(lambda records: insert_to_elasticsearch(records))
@@ -67,9 +65,8 @@ def insert_to_elasticsearch(records):
         es.index(index='twitter', doc_type='tweet', body={
                  'tweet': record, 'sentiment': sentiment})
 
+
 # Write the tweets to MySQL
-
-
 def write_to_mysql(rdd):
     try:
         rdd.foreachPartition(lambda records: insert_to_mysql(records))
