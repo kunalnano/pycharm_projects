@@ -29,14 +29,14 @@ def normalize_json(json_data, project_id):
 
 
 def main():
-    TOKEN = "ffc32183-089f-4820-b009-02f845103670"
-    ORG_ID = "47f8d945-2af9-4b09-b8d9-6afe4f6e288a"
+    token = input("SNYK_TOKEN: ")
+    org_id = input("orgID: ")
 
     # Retrieve a list of projects within the organization
-    projects_url = f"https://api.snyk.io/rest/orgs/{ORG_ID}/projects?version=2022-04-06~experimental"
+    projects_url = f"https://api.snyk.io/rest/orgs/{org_id}/projects?version=2022-04-06~experimental"
     projects_response = requests.get(projects_url, headers={
         "Content-Type": "application/json",
-        "Authorization": f"token {TOKEN}"
+        "Authorization": f"token {token}"
     })
     if projects_response.status_code != 200:
         print(f"Error retrieving list of projects: {projects_response.text}")
@@ -52,11 +52,11 @@ def main():
     # Retrieve a list of issues for each project
     issues = []
     for project_id in project_ids:
-        issues_url = f"https://api.snyk.io/rest/orgs/{ORG_ID}/issues?&project_id={project_id}&version=2022-04-06~experimental"
+        issues_url = f"https://api.snyk.io/rest/orgs/{org_id}/issues?&project_id={project_id}&version=2022-04-06~experimental"
 
         issues_response = requests.get(issues_url, headers={
             "Content-Type": "application/json",
-            "Authorization": f"token {TOKEN}"
+            "Authorization": f"token {token}"
         })
         if issues_response.status_code != 200:
             print(f"Error retrieving list of issues for project {project_id}: {issues_response.text}")
