@@ -32,9 +32,9 @@ def normalize_json(json_data):
     return normalized_data
 
 
-TOKEN = "ffc32183-089f-4820-b009-02f845103670"
-ORG_ID = "47f8d945-2af9-4b09-b8d9-6afe4f6e288a"
-PROJECT_ID = "edf2a159-f8d4-4a88-8bc5-4172a8d93946"
+TOKEN = input("SNYK_TOKEN: ")
+ORG_ID = input("orgID: ")
+PROJECT_ID = input("projectID: ")
 
 
 def main():
